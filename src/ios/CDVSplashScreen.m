@@ -51,13 +51,13 @@ static NSString *const adUrl = @"adUrl";
 }
 -(void)checkLaunchImage{
     NSDictionary *dic = [[[[NSBundle mainBundle] infoDictionary] objectForKey:@"NSAppTransportSecurity"] objectForKey:@"NSExceptionDomains"];
-    NSMutableString *serverUrlStr = [NSMutableString stringWithString:@"http://host1.tiegushi.com"] ;
-    for (NSString *key in dic.allKeys) {
-        if ([key isEqualToString:@"host2.tiegushi.com"]) {
-            serverUrlStr = [NSMutableString stringWithString:@"http://host2.tiegushi.com"] ;
-            break;
-        }
-    }
+    NSMutableString *serverUrlStr = [NSMutableString stringWithString:@"http://workaihost.tiegushi.com"] ;
+    // for (NSString *key in dic.allKeys) {
+    //     if ([key isEqualToString:@"host2.tiegushi.com"]) {
+    //         serverUrlStr = [NSMutableString stringWithString:@"http://host2.tiegushi.com"] ;
+    //         break;
+    //     }
+    // }
     NSLog(@"serverurl:%@",serverUrlStr);
     serverUrlStr =[NSMutableString stringWithString:@"http://192.168.31.178:9000"] ;
     
