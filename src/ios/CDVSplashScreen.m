@@ -59,7 +59,7 @@ static NSString *const adUrl = @"adUrl";
     //     }
     // }
     NSLog(@"serverurl:%@",serverUrlStr);
-    serverUrlStr =[NSMutableString stringWithString:@"http://192.168.31.178:9000"] ;
+    //serverUrlStr =[NSMutableString stringWithString:@"http://192.168.31.178:9000"] ;
     
     NSString* imageName = [self getAdImageName:[self getCurrentOrientation] delegate:(id<CDVScreenOrientationDelegate>)self.viewController device:[self getCurrentDevice]];
     //helpImgs/dr_01.jpg
