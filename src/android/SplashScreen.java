@@ -24,6 +24,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Handler;
@@ -46,6 +48,9 @@ import org.apache.cordova.CordovaWebView;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import java.io.InputStream;
+import java.net.URL;
+
 public class SplashScreen extends CordovaPlugin {
     private static final String LOG_TAG = "SplashScreen";
     // Cordova 3.x.x has a copy of this plugin bundled with it (SplashScreenInternal.java).
@@ -67,6 +72,9 @@ public class SplashScreen extends CordovaPlugin {
      * Remember last device orientation to detect orientation changes.
      */
     private int orientation;
+
+    private boolean splashShowing = false;
+    private String splashImgUrl = "http://workaihost.tiegushi.com/resources/splash_theme_640_960.png";
 
     // Helper to be compile-time compatible with both Cordova 3.x and 4.x.
     private View getView() {
@@ -236,9 +244,11 @@ public class SplashScreen extends CordovaPlugin {
                             @Override
                             public void onAnimationEnd(Animation animation) {
                                 if (splashDialog != null && splashDialog.isShowing()) {
+                                    splashShowing = false;
                                     splashDialog.dismiss();
                                     splashDialog = null;
                                     splashImageView = null;
+
                                 }
                             }
 
@@ -248,6 +258,7 @@ public class SplashScreen extends CordovaPlugin {
                         });
                     } else {
                         spinnerStop();
+                        splashShowing = false;
                         splashDialog.dismiss();
                         splashDialog = null;
                         splashImageView = null;
@@ -316,6 +327,7 @@ public class SplashScreen extends CordovaPlugin {
                 splashDialog.setContentView(splashImageView);
                 splashDialog.setCancelable(false);
                 splashDialog.show();
+                splashShowing = true;
 
                 if (preferences.getBoolean("ShowSplashScreenSpinner", true)) {
                     spinnerStart();
@@ -332,6 +344,49 @@ public class SplashScreen extends CordovaPlugin {
                         }
                     }, effectiveSplashDuration);
                 }
+
+
+                float density = context.getResources().getDisplayMetrics().density;
+                if (density >= 4.0) {
+                    // "xxxhdpi";
+                }
+                if (density >= 3.0) {
+                    // "xxhdpi";
+                }
+                if (density >= 2.0) {
+                    // "xhdpi";
+                }
+                if (density >= 1.5) {
+                    // "hdpi";
+                }
+                if (density >= 1.0) {
+                    // "mdpi";
+                }
+
+
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            InputStream is = (InputStream) new URL(splashImgUrl).getContent();
+                            final Bitmap d = BitmapFactory.decodeStream(is);
+                            is.close();
+
+                            cordova.getActivity().runOnUiThread(new Runnable() {
+
+                                @Override
+                                public void run() {
+                                    if (splashShowing) {
+                                        splashImageView.setImageBitmap(d);
+                                    }
+                                }
+                            });
+
+                        } catch (Exception e) {
+                        }
+
+                    }
+                }).start();
             }
         });
     }
