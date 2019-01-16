@@ -74,7 +74,7 @@ public class SplashScreen extends CordovaPlugin {
     private int orientation;
 
     private boolean splashShowing = false;
-    private String splashImgUrl = "http://workaihost.tiegushi.com/resources/splash_theme_640_960.png";
+    private String splashImgUrl = "http://workaihost.tiegushi.com/resources/splash_theme_640_en_960.png";
 
     // Helper to be compile-time compatible with both Cordova 3.x and 4.x.
     private View getView() {
